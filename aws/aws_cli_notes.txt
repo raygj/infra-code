@@ -1,0 +1,20 @@
+#https://aws.amazon.com/cli/
+#must run interactive setup for awscli
+#must have user with access ID and password set with EC2 permissions in IAM (and S3 if access
+#S3 bucket
+#
+#use case - use describe-instance to retrieve instance ID, then use start-instances
+#
+#use case - pull config script from S3 bucket
+
+aws s3 ls s3://<bucket name>/ansible_script.yml
+
+
+#The AWS CLI will run these transfers in parallel for increased performance.
+aws s3 cp myfolder s3://mybucket/myfolder --recursive
+upload: myfolder/file1.txt to s3://mybucket/myfolder/file1.txt
+upload: myfolder/subfolder/file1.txt to s3://mybucket/myfolder/subfolder/file1.txt
+
+#A sync command makes it easy to synchronize the contents of a local folder with a copy in an S3 bucket. 
+$ aws s3 sync myfolder s3://mybucket/myfolder --exclude *.tmp
+upload: myfolder/newfile.txt to s3://mybucket/myfolder/newfile.txt
