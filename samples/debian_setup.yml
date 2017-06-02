@@ -1,0 +1,32 @@
+#install Debian package on all targets
+#
+#ansible all -s -m apt  -a 'pkg=nmap update_cache=true'
+#
+#-s is "sudo" -m is "module", in this case apt module then define package in the -a (which is standard -a for argument)
+#
+#playbook
+
+- hosts: local #could be "all" or any other group defined in the ansible/hosts file
+  tasks:
+   - name: Install Nginx
+     apt: pkg=nginx state=installed update_cache=true
+
+#handler
+
+do something after primary command, ex: start a service
+uses notify command to feed handler
+
+- hosts: lab
+  tasks:
+   - name: Install Nginx
+     apt: pkg=nginx state=installed update_cache=true
+     notify:
+      - Start Nginx
+
+  handlers:
+   - name: Start Nginx
+     service: name=nginx state=started
+
+#***NOTE: Notifiers are only run if the Task is run. 
+#If I already had Nginx installed, the Install Nginx Task would not be run 
+#and the notifier would not be called.
