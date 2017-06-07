@@ -18,3 +18,19 @@ upload: myfolder/subfolder/file1.txt to s3://mybucket/myfolder/subfolder/file1.t
 #A sync command makes it easy to synchronize the contents of a local folder with a copy in an S3 bucket. 
 $ aws s3 sync myfolder s3://mybucket/myfolder --exclude *.tmp
 upload: myfolder/newfile.txt to s3://mybucket/myfolder/newfile.txt
+
+
+Document Parameters
+The “AWS-RunAnsiblePlaybook” document has a few parameters that can be used to execute playbooks locally:
+
+Playbook – Use this parameter if you would like to pass the YAML text for the playbook directly
+
+Playbookurl – Use this parameter if you would like to specify a URL where the playbook file is stored.
+The URL can be a web (http or https) or an s3 URL in the form of s3://bucket-name/playbook.yml . 
+For s3 URL there is a pre-requisite of the AWS Command line tools
+
+Extravars – This is a string list of additional variables that will be passed to Ansible
+for the execution of the playbook
+
+Check – This flag tells Ansible not to execute the actions of the playbook, 
+but try to predict the outcome and log it. This is helpful for testing playbook execution

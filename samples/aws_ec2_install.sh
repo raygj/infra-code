@@ -18,3 +18,6 @@ cd /tmp
 wget https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb
 sudo dpkg -i amazon-ssm-agent.deb
 sudo systemctl enable amazon-ssm-agent
+
+#setup IAM policy for instance to communicate with Systems Manager
+#https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-configuring-access-policies.html
