@@ -1,0 +1,33 @@
+#cisco NX-OS Port Configurations
+# http://www.cisco.com/c/en/us/td/docs/switches/datacenter/sw/4_2/nx-os/interfaces/configuration/guide/if_nxos/if_access_trunk.html
+#
+#access or trunk port
+config t
+interface {{ type slot/port } | { port-channel number }}
+switchport mode { access | trunk }
+switchport access vlan vlan-id
+exit
+show interface
+#validate port status
+copy running-config startup-config
+
+#L3 Configurations
+#
+#physical int or sub-int
+#
+#int
+config t
+interface ethernet slot/port
+no switchport
+ip address ip-address/length
+copy running-config startup-config
+# sub-int
+config t
+interface ethernet slot/portnumber
+ip address ip-address/length or ipv6 address ipv6-address/length
+encapsulation dot1q vlan-id
+show interfaces
+copy running-config startup-config
+
+
+
