@@ -1,0 +1,5 @@
+#for firewall messages
+%{TIMESTAMP_ISO8601:timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_source} %{WORD:ActionTaken} (?:.*)%{IP:src_ip} (?:.*)%{IP:dst_ip} (?:.*)%{INT:src_port} (?:.*)%{INT:dst_port}
+
+#for all other messages
+%{TIMESTAMP_ISO8601:timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_source} %{GREEDYDATA:syslog_message}

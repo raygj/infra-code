@@ -1,0 +1,5 @@
+firewall-cmd --zone=public --add-port=514/udp --permanent
+firewall-cmd --zone=public --add-port=514/tcp --permanent
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+
+sudo firewall-cmd --reload

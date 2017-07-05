@@ -1,0 +1,13 @@
+If you still see permission denied after verifying the permissions of the parent folders, it may be SELinux restricting access.
+
+To check if SELinux is running:
+
+# getenforce
+To disable SELinux until next reboot:
+
+# setenforce Permissive
+Restart Nginx and see if the problem persists. To allow nginx to serve your www directory (make sure you turn SELinux back on before testing this. i.e, setenforce Enforcing)
+
+# chcon -Rt httpd_sys_content_t /path/to/www
+
+https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files

@@ -1,0 +1,50 @@
+server {
+    listen 80;
+
+    server_name elk.lab.home.org;
+
+    auth_basic "Restricted Access";
+    auth_basic_user_file /etc/nginx/htpasswd.users;
+
+    location / {
+        proxy_pass http://localhost:5601;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;        
+    }
+}
+
+https://www.digitalocean.com/community/tutorials/how-to-map-user-location-with-geoip-and-elk-elasticsearch-logstash-and-kibana
+
+In the Adding Filters to Logstash tutorial, the Nginx filter is stored in a file called 11-nginx-filter.conf. 
+If your filter is located elsewhere, just edit that file instead.
+
+Let's edit the Nginx filter now:
+
+sudo vi /etc/logstash/conf.d/11-nginx-filter.conf
+Under the grok section (in the if [type]... block), add these lines:
+
+filter {
+  if [type] == "nginx-access" {
+    grok {
+      match => { "message" => "%{NGINXACCESS}" }
+    }
+    geoip {
+      source => "clientip"
+      target => "geoip"
+      database => "/etc/logstash/GeoLiteCity.dat"
+      add_field => [ "[geoip][coordinates]", "%{[geoip][longitude]}" ]
+      add_field => [ "[geoip][coordinates]", "%{[geoip][latitude]}"  ]
+    }
+    mutate {
+      convert => [ "[geoip][coordinates]", "float"]
+    }
+  }
+}
+
+This configures this filter to convert an IP address stored in the clientip field (specified in source), 
+using the GeoLite City database that we downloaded earlier. We are specifying the source as "clientip" 
+because that is the name of the field that the Nginx user IP address is being stored in—be sure to 
+change this value if you are storing the IP address information in a different field.
