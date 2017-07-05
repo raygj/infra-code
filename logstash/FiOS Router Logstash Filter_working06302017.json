@@ -6,23 +6,16 @@ input {
  }
 }
 filter {
-  # process all other info firewall messages
+  # process firewall messages
   grok {
     match => { "message" => "<%{TIMESTAMP_ISO8601:timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_source} %{WORD:ActionTaken} (?:.*)%{IP:src_ip} (?:.*)%{IP:dst_ip} (?:.*)%{INT:src_port} (?:.*)%{INT:dst_port}" }
-    add_field => {
-      "type" => "firewall_log"
-  }
+    add_tag => ["firewall_log"]
  }
-}
-  # process all other info log messages
-filter {
   grok {
   match => { "message" => "<%{TIMESTAMP_ISO8601:timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_source} %{GREEDYDATA:syslog_message}" }
-  add_field => {
-    "type" => "info_log"
-  }
+  add_tag => ["info_log"]
  }
-}
+ }
 output {
   # first deal with any non-matches
   if [type] == "syslog" and "_grokparsefailure" in [tags] {
