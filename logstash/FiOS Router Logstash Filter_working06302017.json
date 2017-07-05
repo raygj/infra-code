@@ -26,7 +26,7 @@ filter {
 output {
   # first deal with any non-matches
   if [type] == "syslog" and "_grokparsefailure" in [tags] {
-    file { path => "/var/log/failed_syslog_events-%{+YYYY-MM-dd}" }
+    file { path => "/tmp/log/failed_syslog_events-%{+YYYY-MM-dd}" }
   # then send the rest of the to elastic for indexing
   } else {
     elasticsearch {

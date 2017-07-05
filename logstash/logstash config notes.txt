@@ -1,0 +1,15 @@
+logstash config location:
+
+/etc/logstash/conf.d/logstash.conf
+
+test logstash configuration:
+
+/opt/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf --configtest
+
+rsyslog file location, logstash input
+
+/var/log/network.log
+
+location of _grokparsefailure log
+
+/tmp/log/failed_syslog_events-%{+YYYY-MM-dd}
